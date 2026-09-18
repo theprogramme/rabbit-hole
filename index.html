@@ -87,8 +87,8 @@
     background:var(--surface-2);border-radius:999px;font-size:12px;padding:1px 6px;color:var(--ink-soft);
   }
 
-  /* ---------- search ---------- */
-  .searchbar{display:flex;gap:8px;margin-bottom:18px}
+  /* ---------- search & sources ---------- */
+  .searchbar{display:flex;gap:8px;margin-bottom:12px}
   .searchbar input{
     flex:1;min-width:0;padding:12px 14px;border-radius:12px;border:1px solid var(--line);
     background:var(--surface);color:var(--ink);font-family:inherit;font-size:16px;
@@ -101,14 +101,30 @@
   }
   .btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
   .btn:disabled{opacity:.5;cursor:default}
+  .btn.small{padding:6px 12px;font-size:13px;border-radius:10px}
 
-  .chips{display:flex;flex-wrap:wrap;gap:8px;margin:4px 0 20px}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin:4px 0 16px}
   .chip{
     border:1px solid var(--line);background:var(--surface);color:var(--ink);
     border-radius:999px;padding:6px 14px;font-size:14px;
     font-family:"Bricolage Grotesque", system-ui, sans-serif;
   }
   .chip:hover{border-color:var(--accent);color:var(--accent)}
+  .chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+  .chip.add{border-style:dashed;color:var(--ink-soft)}
+  .chip.add:hover{color:var(--accent)}
+
+  .addwiki{
+    display:flex;gap:8px;flex-wrap:wrap;align-items:center;
+    background:var(--surface);border:1px solid var(--line);border-radius:14px;
+    padding:12px;margin:0 0 16px;
+  }
+  .addwiki input{
+    flex:1;min-width:200px;padding:10px 12px;border-radius:10px;border:1px solid var(--line);
+    background:var(--ground);color:var(--ink);font-family:inherit;font-size:15px;
+  }
+  .addwiki .hint{flex-basis:100%;color:var(--ink-soft);font-size:13px;margin:0;
+    font-family:"Bricolage Grotesque", system-ui, sans-serif}
 
   .section-label{
     font-family:"Bricolage Grotesque", system-ui, sans-serif;
@@ -131,15 +147,18 @@
   .thumb.ph{display:flex;align-items:center;justify-content:center;color:var(--ink-soft);
     font-family:"Bricolage Grotesque", system-ui, sans-serif;font-weight:700;font-size:22px}
   .card h3{margin:0;font-size:18px;line-height:1.25;font-weight:600}
-  .card h3 button{
-    all:unset;cursor:pointer;color:inherit;
-  }
+  .card h3 button{all:unset;cursor:pointer;color:inherit}
   .card h3 button:hover{color:var(--accent)}
   .card .desc{margin:3px 0 0;color:var(--ink-soft);font-size:14px;line-height:1.4;
     display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+  .badges{display:flex;flex-wrap:wrap;gap:6px;margin-top:5px}
+  .src-badge{
+    font-family:"Bricolage Grotesque", system-ui, sans-serif;font-size:11px;font-weight:700;
+    letter-spacing:.04em;color:var(--ink-soft);background:var(--surface-2);
+    border-radius:6px;padding:2px 7px;
+  }
   .because{
     font-family:"Bricolage Grotesque", system-ui, sans-serif;font-size:12px;color:var(--accent);
-    margin-top:2px;
   }
   .card-actions{display:flex;gap:8px;margin-top:auto;align-items:center}
   .act{
@@ -161,10 +180,18 @@
   .status{color:var(--ink-soft);font-style:italic;margin:10px 0}
   .toolbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px}
 
-  /* ---------- reader ---------- */
-  .reader-backdrop{
-    position:fixed;inset:0;background:rgba(15,20,23,.55);z-index:20;
+  /* ---------- source manager ---------- */
+  .src-row{
+    display:flex;align-items:center;gap:12px;background:var(--surface);
+    border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin-bottom:8px;
   }
+  .src-row .name{font-weight:600}
+  .src-row .host{color:var(--ink-soft);font-size:13px;
+    font-family:"Bricolage Grotesque", system-ui, sans-serif}
+  .src-row .spacer{flex:1}
+
+  /* ---------- reader ---------- */
+  .reader-backdrop{position:fixed;inset:0;background:rgba(15,20,23,.55);z-index:20}
   .reader{
     position:fixed;z-index:21;inset:auto 0 0 0;top:max(24px, env(safe-area-inset-top,0px));
     margin:0 auto;max-width:760px;width:100%;
@@ -180,9 +207,10 @@
   }
   .reader-head h2{margin:0;font-size:20px;font-weight:600;flex:1;min-width:0;
     overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .reader-head .src-badge{flex:0 0 auto}
   .reader-body{overflow-y:auto;padding:6px 22px 30px;-webkit-overflow-scrolling:touch}
-  .reader-body .lead-img{width:100%;max-height:280px;object-fit:cover;border-radius:12px;margin:14px 0 6px}
-  .article{max-width:62ch;margin:0 auto}
+  .reader-body .lead-img{max-width:100%;max-height:280px;object-fit:contain;border-radius:12px;margin:14px 0 6px}
+  .article{max-width:62ch;margin:0 auto;overflow-wrap:break-word}
   .article p{margin:0 0 1em}
   .article h2,.article h3,.article h4{
     font-family:"Bricolage Grotesque", system-ui, sans-serif;letter-spacing:-.01em;
@@ -191,16 +219,18 @@
   .article h2{font-size:22px;border-bottom:1px solid var(--line);padding-bottom:6px}
   .article h3{font-size:18px}
   .article ul,.article ol{padding-left:1.4em}
-  .article table{display:block;overflow-x:auto;border-collapse:collapse;font-size:14px}
+  .article figure{margin:1em 0}
+  .article figcaption{font-size:13px;color:var(--ink-soft)}
+  .article .tbl-wrap{overflow-x:auto}
+  .article table{border-collapse:collapse;font-size:14px}
   .article td,.article th{border:1px solid var(--line);padding:4px 8px}
+  .article a{color:var(--accent)}
   .reader-foot{
     border-top:1px solid var(--line);padding:12px 18px calc(12px + env(safe-area-inset-bottom,0px));
     display:flex;gap:8px;align-items:center;background:var(--surface);flex-wrap:wrap;
   }
   .reader-foot .spacer{flex:1}
-  .close-x{
-    all:unset;cursor:pointer;color:var(--ink-soft);font-size:22px;line-height:1;padding:4px 8px;border-radius:8px;
-  }
+  .close-x{all:unset;cursor:pointer;color:var(--ink-soft);font-size:22px;line-height:1;padding:4px 8px;border-radius:8px}
   .close-x:hover{color:var(--ink)}
 
   footer.app{
@@ -231,9 +261,19 @@
   <!-- ============ EXPLORE ============ -->
   <section id="panel-explore" role="tabpanel" aria-labelledby="tab-explore">
     <form class="searchbar" id="searchForm">
-      <input id="searchInput" type="search" placeholder="Search Wikipedia — try “Antikythera mechanism”" aria-label="Search Wikipedia" autocomplete="off">
+      <input id="searchInput" type="search" placeholder="Search your wikis" aria-label="Search" autocomplete="off">
       <button class="btn primary" type="submit">Search</button>
     </form>
+
+    <div class="chips ui" id="sourceChips" aria-label="Wikis to search"></div>
+
+    <div class="addwiki ui" id="addWikiForm" hidden>
+      <input id="addWikiInput" placeholder="e.g.  deltarune   ·   undertale   ·   terraria.wiki.gg" aria-label="Wiki name or domain">
+      <button class="btn primary small" id="addWikiBtn" type="button">Add wiki</button>
+      <button class="btn small" id="addWikiCancel" type="button">Cancel</button>
+      <p class="hint" id="addWikiStatus">Type a Fandom community name (it becomes name.fandom.com) or paste any MediaWiki site's domain.</p>
+    </div>
+
     <div class="chips ui" id="starterChips" aria-label="Suggested searches"></div>
     <div id="exploreStatus" class="status" hidden></div>
     <div id="exploreResults"></div>
@@ -254,7 +294,7 @@
   </section>
 
   <footer class="app">
-    Content from the English Wikipedia via its public API, licensed CC&nbsp;BY-SA. Your likes are saved in this browser only.
+    Content from Wikipedia, Fandom and other MediaWiki communities via their public APIs; text licensed CC&nbsp;BY-SA by each wiki. Your likes and wiki list are saved in this browser only.
   </footer>
 </div>
 
@@ -263,6 +303,7 @@
 <div id="reader" class="reader" role="dialog" aria-modal="true" aria-labelledby="readerTitle" hidden>
   <div class="reader-head ui">
     <h2 id="readerTitle"></h2>
+    <span class="src-badge" id="readerSrc"></span>
     <button class="close-x" id="readerClose" aria-label="Close reader">&times;</button>
   </div>
   <div class="reader-body" id="readerBody"></div>
@@ -270,72 +311,94 @@
     <button class="act" id="readerLike"><span class="heart">♥</span><span>Like</span></button>
     <button class="act" id="readerHide"><span>✕</span><span>Not for me</span></button>
     <span class="spacer"></span>
-    <a class="btn" id="readerWikiLink" href="#" target="_blank" rel="noopener">Open on Wikipedia</a>
+    <a class="btn" id="readerWikiLink" href="#" target="_blank" rel="noopener">Open original</a>
   </div>
 </div>
 
 <script>
 "use strict";
 /* =============================================================
-   Rabbit Hole — a personal Wikipedia explorer
-   Search & browse pages, like or hide them, and get a For-You
-   feed built from Wikipedia's "morelike" similarity search.
-   State lives in localStorage in this browser.
+   Rabbit Hole v2 — a personal explorer for Wikipedia, Fandom
+   and any other MediaWiki wiki. Search & browse pages, like or
+   hide them, and get a For-You feed from each wiki's
+   "morelike" similarity search (with a shared-category
+   fallback for wikis without it).
    ============================================================= */
 
-const API = "https://en.wikipedia.org/w/api.php";
-const FEED = "https://en.wikipedia.org/api/rest_v1/feed/featured/";
-const STORE_KEY = "rabbithole.v1";
+const STORE_KEY = "rabbithole.v2";
+const OLD_KEY   = "rabbithole.v1";
+const WP = {
+  id:"wp", name:"Wikipedia", host:"en.wikipedia.org",
+  api:"https://en.wikipedia.org/w/api.php",
+  article:"https://en.wikipedia.org/wiki/",
+  wp:true, builtin:true
+};
 
 /* ---------------- state ---------------- */
 function loadState(){
+  let s = null;
   try{
     const raw = localStorage.getItem(STORE_KEY);
-    if(raw){
-      const s = JSON.parse(raw);
-      if(s && typeof s === "object"){
-        return { likes: s.likes || {}, hidden: s.hidden || {} };
+    if(raw) s = JSON.parse(raw);
+    if(!s){
+      const old = localStorage.getItem(OLD_KEY);
+      if(old){                      // migrate v1 (Wikipedia-only) likes
+        const o = JSON.parse(old) || {};
+        s = { sources:[WP], likes:{}, hidden:{} };
+        for(const t in (o.likes||{}))  s.likes["wp|"+t]  = Object.assign({src:"wp", srcName:"Wikipedia"}, o.likes[t]);
+        for(const t in (o.hidden||{})) s.hidden["wp|"+t] = Object.assign({src:"wp", srcName:"Wikipedia"}, o.hidden[t]);
       }
     }
   }catch(e){ /* storage unavailable — run in-memory */ }
-  return { likes:{}, hidden:{} };
+  if(!s || typeof s !== "object") s = { sources:[WP], likes:{}, hidden:{} };
+  s.sources = Array.isArray(s.sources) && s.sources.length ? s.sources : [WP];
+  if(!s.sources.some(x=>x.id==="wp")) s.sources.unshift(WP);
+  s.likes = s.likes || {}; s.hidden = s.hidden || {};
+  return s;
 }
 let state = loadState();
 function saveState(){
   try{ localStorage.setItem(STORE_KEY, JSON.stringify(state)); }catch(e){ /* best effort */ }
 }
-const isLiked  = t => Object.prototype.hasOwnProperty.call(state.likes, t);
-const isHidden = t => Object.prototype.hasOwnProperty.call(state.hidden, t);
+const keyOf    = p => p.src + "|" + p.title;
+const isLiked  = p => Object.prototype.hasOwnProperty.call(state.likes,  keyOf(p));
+const isHidden = p => Object.prototype.hasOwnProperty.call(state.hidden, keyOf(p));
+const srcById  = id => state.sources.find(s=>s.id===id);
 
-function like(page){
-  if(isLiked(page.title)){ delete state.likes[page.title]; }
-  else{
-    state.likes[page.title] = { title:page.title, desc:page.desc||"", thumb:page.thumb||"", ts:Date.now() };
-    delete state.hidden[page.title];
-  }
+function stripPage(p){
+  return { src:p.src, srcName:(srcById(p.src)||{}).name || p.srcName || "",
+           title:p.title, desc:p.desc||"", thumb:p.thumb||"", ts:Date.now() };
+}
+function like(p){
+  const k = keyOf(p);
+  if(state.likes[k]) delete state.likes[k];
+  else { state.likes[k] = stripPage(p); delete state.hidden[k]; }
   saveState(); recsStale = true; syncAllCards(); updateCounts();
 }
-function hide(page){
-  if(isHidden(page.title)){ delete state.hidden[page.title]; }
-  else{
-    state.hidden[page.title] = { title:page.title, desc:page.desc||"", thumb:page.thumb||"", ts:Date.now() };
-    delete state.likes[page.title];
-  }
+function hide(p){
+  const k = keyOf(p);
+  if(state.hidden[k]) delete state.hidden[k];
+  else { state.hidden[k] = stripPage(p); delete state.likes[k]; }
   saveState(); recsStale = true; syncAllCards(); updateCounts();
 }
 
 /* ---------------- api helpers ---------------- */
-async function mw(params){
+function withTimeout(ms){
+  const c = new AbortController();
+  setTimeout(()=>c.abort(), ms);
+  return c.signal;
+}
+async function mw(source, params, timeout = 15000){
   const qs = new URLSearchParams(Object.assign({
     format:"json", formatversion:"2", origin:"*"
   }, params));
-  const res = await fetch(API + "?" + qs.toString());
-  if(!res.ok) throw new Error("Wikipedia API error " + res.status);
+  const res = await fetch(source.api + "?" + qs.toString(), { signal: withTimeout(timeout) });
+  if(!res.ok) throw new Error("API error " + res.status);
   return res.json();
 }
 
-async function searchPages(query, limit = 20){
-  const data = await mw({
+async function searchPages(source, query, limit = 12){
+  const data = await mw(source, {
     action:"query",
     generator:"search",
     gsrsearch:query,
@@ -348,28 +411,101 @@ async function searchPages(query, limit = 20){
   const pages = (data.query && data.query.pages) || [];
   pages.sort((a,b)=>(a.index||0)-(b.index||0));
   return pages.map(p => ({
+    src:source.id, srcName:source.name,
     title:p.title,
     desc:p.description || "",
     thumb:(p.thumbnail && p.thumbnail.source) || ""
   }));
 }
 
-async function fetchArticle(title){
-  const data = await mw({
-    action:"query",
-    titles:title,
-    prop:"extracts|pageimages|description",
-    piprop:"original",
-    redirects:"1",
-  });
-  const p = data.query && data.query.pages && data.query.pages[0];
-  if(!p || p.missing) throw new Error("Page not found");
-  return {
-    title:p.title,
-    desc:p.description || "",
-    html:p.extract || "<p>No preview available for this page.</p>",
-    image:(p.original && p.original.source) || ""
-  };
+async function relatedTitles(source, seedTitle){
+  // Preferred: CirrusSearch "morelike". Fallback: pages sharing categories.
+  try{
+    const data = await mw(source, {
+      action:"query", list:"search",
+      srsearch:'morelike:"' + seedTitle.replace(/"/g,"") + '"',
+      srlimit:"12", srnamespace:"0", srprop:"",
+    });
+    const hits = (data.query && data.query.search) || [];
+    if(hits.length) return hits.map(h=>h.title);
+  }catch(e){ /* fall through */ }
+  try{
+    const cats = await mw(source, {
+      action:"query", titles:seedTitle, prop:"categories",
+      clshow:"!hidden", cllimit:"5", redirects:"1",
+    });
+    const page = cats.query && cats.query.pages && cats.query.pages[0];
+    const list = (page && page.categories || []).slice(0,3);
+    const out = [];
+    for(const c of list){
+      const mem = await mw(source, {
+        action:"query", list:"categorymembers",
+        cmtitle:c.title, cmnamespace:"0", cmlimit:"10",
+      });
+      ((mem.query && mem.query.categorymembers) || []).forEach(m=>{
+        if(m.title !== seedTitle) out.push(m.title);
+      });
+    }
+    return out;
+  }catch(e){ return []; }
+}
+
+async function hydrate(source, titles){
+  // titles -> pages with thumb + description (best effort)
+  let pages = titles.map(t=>({src:source.id, srcName:source.name, title:t, desc:"", thumb:""}));
+  try{
+    const data = await mw(source, {
+      action:"query", titles:titles.join("|"),
+      prop:"pageimages|description", piprop:"thumbnail", pithumbsize:"200", redirects:"1",
+    });
+    const info = new Map(((data.query && data.query.pages) || []).map(p=>[p.title,p]));
+    pages = titles.map(t=>{
+      const p = info.get(t) || {};
+      return { src:source.id, srcName:source.name, title:t,
+               desc:p.description||"", thumb:(p.thumbnail && p.thumbnail.source)||"" };
+    });
+  }catch(e){ /* show without thumbnails */ }
+  return pages;
+}
+
+/* ---------------- add-a-wiki probing ---------------- */
+async function probeHost(host){
+  for(const path of ["/api.php","/w/api.php"]){
+    try{
+      const api = "https://" + host + path;
+      const qs = new URLSearchParams({action:"query", meta:"siteinfo", siprop:"general",
+                                      format:"json", formatversion:"2", origin:"*"});
+      const res = await fetch(api + "?" + qs, { signal: withTimeout(8000) });
+      if(!res.ok) continue;
+      const data = await res.json();
+      const g = data.query && data.query.general;
+      if(!g || !g.sitename) continue;
+      let server = g.server || ("https://" + host);
+      if(server.startsWith("//")) server = "https:" + server;
+      const articlePath = (g.articlepath || "/wiki/$1").replace("$1","");
+      return {
+        id: host.replace(/[^a-z0-9]+/gi,"-"),
+        name: g.sitename,
+        host, api,
+        article: server + articlePath,
+        wp: /(^|\.)wikipedia\.org$/.test(host),
+      };
+    }catch(e){ /* try next */ }
+  }
+  return null;
+}
+async function probeWiki(input){
+  const clean = input.trim().toLowerCase()
+    .replace(/^https?:\/\//,"").split("/")[0].replace(/\s+/g,"");
+  if(!clean) return null;
+  const candidates = clean.includes(".")
+    ? [clean]
+    : [clean + ".fandom.com", clean + ".wiki.gg"];
+  for(const host of candidates){
+    const src = await probeHost(host);
+    if(src) return src;
+  }
+  return null;
 }
 
 /* ---------------- rendering ---------------- */
@@ -379,10 +515,11 @@ function el(tag, cls, text){
   if(text != null) n.textContent = text;
   return n;
 }
+const multiSource = () => state.sources.length > 1;
 
 function makeCard(page, opts = {}){
   const card = el("article","card");
-  card.dataset.title = page.title;
+  card.dataset.key = keyOf(page);
 
   const top = el("div","card-top");
   if(page.thumb){
@@ -390,8 +527,7 @@ function makeCard(page, opts = {}){
     img.src = page.thumb; img.alt = ""; img.loading = "lazy";
     top.appendChild(img);
   }else{
-    const ph = el("div","thumb ph", page.title.charAt(0));
-    top.appendChild(ph);
+    top.appendChild(el("div","thumb ph", page.title.charAt(0)));
   }
   const meta = el("div");
   meta.style.minWidth = "0";
@@ -402,7 +538,11 @@ function makeCard(page, opts = {}){
   h.appendChild(openBtn);
   meta.appendChild(h);
   if(page.desc) meta.appendChild(el("p","desc",page.desc));
-  if(opts.because) meta.appendChild(el("div","because","Because you liked " + opts.because));
+  const badges = el("div","badges");
+  if((multiSource() || !srcById(page.src)) && (page.srcName || page.src))
+    badges.appendChild(el("span","src-badge", page.srcName || page.src));
+  if(opts.because) badges.appendChild(el("span","because","Because you liked " + opts.because));
+  if(badges.children.length) meta.appendChild(badges);
   top.appendChild(meta);
   card.appendChild(top);
 
@@ -415,26 +555,26 @@ function makeCard(page, opts = {}){
   hideBtn.type = "button";
   hideBtn.innerHTML = '<span>✕</span><span class="lbl"></span>';
   hideBtn.addEventListener("click", ()=>hide(page));
-  const readBtn = el("button","act read-link", "Read →");
+  const readBtn = el("button","act read-link","Read →");
   readBtn.type = "button";
   readBtn.addEventListener("click", ()=>openReader(page));
   actions.append(likeBtn, hideBtn, readBtn);
   card.appendChild(actions);
 
+  card._page = page;
   syncCard(card);
   return card;
 }
-
 function syncCard(card){
-  const t = card.dataset.title;
+  const p = card._page; if(!p) return;
   const likeBtn = card.querySelector(".like-btn");
   const hideBtn = card.querySelector(".hide-btn");
   if(likeBtn){
-    likeBtn.classList.toggle("liked", isLiked(t));
-    likeBtn.querySelector(".lbl").textContent = isLiked(t) ? "Liked" : "Like";
+    likeBtn.classList.toggle("liked", isLiked(p));
+    likeBtn.querySelector(".lbl").textContent = isLiked(p) ? "Liked" : "Like";
   }
   if(hideBtn){
-    hideBtn.querySelector(".lbl").textContent = isHidden(t) ? "Hidden" : "Not for me";
+    hideBtn.querySelector(".lbl").textContent = isHidden(p) ? "Hidden" : "Not for me";
   }
 }
 function syncAllCards(){
@@ -444,73 +584,136 @@ function syncAllCards(){
 function updateCounts(){
   document.getElementById("likeCount").textContent = String(Object.keys(state.likes).length);
 }
-
 function renderGrid(container, pages, opts = {}){
-  container.textContent = "";
   const grid = el("div","grid");
-  pages.forEach(p => grid.appendChild(makeCard(p, { because: opts.becauseOf ? opts.becauseOf.get(p.title) : null })));
+  pages.forEach(p => grid.appendChild(makeCard(p, { because: opts.becauseOf ? opts.becauseOf.get(keyOf(p)) : null })));
   container.appendChild(grid);
 }
 
-/* ---------------- explore tab ---------------- */
-const STARTERS = ["Deep sea creatures","Bronze Age collapse","Voyager program","Great Barrier Reef",
-                  "History of typography","Unsolved problems in physics","Australian megafauna"];
+/* ---------------- explore: source chips ---------------- */
+let sourceFilter = "all";
+const sourceChips = document.getElementById("sourceChips");
+const addWikiForm = document.getElementById("addWikiForm");
 
-const exploreStatus  = document.getElementById("exploreStatus");
-const exploreResults = document.getElementById("exploreResults");
-
-function setStatus(node, msg){
-  node.hidden = !msg;
-  node.textContent = msg || "";
+function renderSourceChips(){
+  sourceChips.textContent = "";
+  const mk = (label, val)=>{
+    const c = el("button","chip",label);
+    c.type = "button";
+    c.setAttribute("aria-pressed", String(sourceFilter===val));
+    c.addEventListener("click", ()=>{
+      sourceFilter = val;
+      renderSourceChips();
+      const q = document.getElementById("searchInput").value.trim();
+      if(q) runSearch(q);
+    });
+    sourceChips.appendChild(c);
+  };
+  if(multiSource()) mk("All wikis","all");
+  state.sources.forEach(s=>mk(s.name, s.id));
+  const add = el("button","chip add","+ Add a wiki");
+  add.type = "button";
+  add.addEventListener("click", ()=>{
+    addWikiForm.hidden = !addWikiForm.hidden;
+    if(!addWikiForm.hidden) document.getElementById("addWikiInput").focus();
+  });
+  sourceChips.appendChild(add);
 }
 
+const addWikiStatus = document.getElementById("addWikiStatus");
+async function addWiki(){
+  const input = document.getElementById("addWikiInput");
+  const btn = document.getElementById("addWikiBtn");
+  const val = input.value.trim();
+  if(!val) return;
+  btn.disabled = true;
+  addWikiStatus.textContent = "Checking " + val + "…";
+  const src = await probeWiki(val);
+  btn.disabled = false;
+  if(!src){
+    addWikiStatus.textContent = "Couldn't find a wiki there. Try the community name (e.g. “undertale”) or the full domain.";
+    return;
+  }
+  if(srcById(src.id)){
+    addWikiStatus.textContent = src.name + " is already in your list.";
+    return;
+  }
+  state.sources.push(src);
+  saveState(); recsStale = true;
+  input.value = "";
+  addWikiStatus.textContent = "Added " + src.name + " (" + src.host + "). It's now included in search and For You.";
+  sourceFilter = src.id;
+  renderSourceChips();
+}
+document.getElementById("addWikiBtn").addEventListener("click", addWiki);
+document.getElementById("addWikiInput").addEventListener("keydown", e=>{
+  if(e.key==="Enter"){ e.preventDefault(); addWiki(); }
+});
+document.getElementById("addWikiCancel").addEventListener("click", ()=>{ addWikiForm.hidden = true; });
+
+function removeSource(id){
+  state.sources = state.sources.filter(s=>s.id!==id || s.builtin);
+  if(sourceFilter===id) sourceFilter = "all";
+  saveState(); recsStale = true;
+  renderSourceChips(); renderLibrary();
+}
+
+/* ---------------- explore tab ---------------- */
+const STARTERS = ["Deep sea creatures","Bronze Age collapse","Voyager program",
+                  "History of typography","Unsolved problems in physics","Australian megafauna"];
+const exploreStatus  = document.getElementById("exploreStatus");
+const exploreResults = document.getElementById("exploreResults");
+function setStatus(node, msg){ node.hidden = !msg; node.textContent = msg || ""; }
+
+let searchSeq = 0;
 async function runSearch(query){
   document.getElementById("searchInput").value = query;
+  const seq = ++searchSeq;
   setStatus(exploreStatus, "Searching…");
   exploreResults.textContent = "";
-  try{
-    const pages = await searchPages(query);
-    const visible = pages.filter(p => !isHidden(p.title));
-    setStatus(exploreStatus, visible.length ? "" : "No results for “" + query + "”.");
-    if(visible.length){
-      const label = el("div","section-label","Results for “" + query + "”");
-      exploreResults.appendChild(label);
-      const holder = el("div");
-      exploreResults.appendChild(holder);
-      renderGrid(holder, visible);
-    }
-  }catch(e){
-    setStatus(exploreStatus, "Couldn't reach Wikipedia — check your connection and try again.");
-  }
+  const targets = sourceFilter==="all" ? state.sources : state.sources.filter(s=>s.id===sourceFilter);
+  const settled = await Promise.allSettled(targets.map(s=>searchPages(s, query)));
+  if(seq !== searchSeq) return;   // a newer search superseded this one
+  exploreResults.textContent = "";
+  let any = false, allFailed = true;
+  settled.forEach((r,i)=>{
+    if(r.status!=="fulfilled") return;
+    allFailed = false;
+    const visible = r.value.filter(p=>!isHidden(p));
+    if(!visible.length) return;
+    any = true;
+    exploreResults.appendChild(el("div","section-label", targets[i].name + " — results for “" + query + "”"));
+    renderGrid(exploreResults, visible);
+  });
+  if(allFailed) setStatus(exploreStatus, "Couldn't reach any of your wikis — check your connection and try again.");
+  else setStatus(exploreStatus, any ? "" : "No results for “" + query + "”.");
 }
 
 async function loadFrontPage(){
   setStatus(exploreStatus, "Loading today's Wikipedia…");
   try{
     const d = new Date();
-    const url = FEED + d.getUTCFullYear() + "/" + String(d.getUTCMonth()+1).padStart(2,"0") + "/" + String(d.getUTCDate()).padStart(2,"0");
-    const res = await fetch(url);
+    const url = "https://en.wikipedia.org/api/rest_v1/feed/featured/" +
+      d.getUTCFullYear() + "/" + String(d.getUTCMonth()+1).padStart(2,"0") + "/" + String(d.getUTCDate()).padStart(2,"0");
+    const res = await fetch(url, { signal: withTimeout(12000) });
     if(!res.ok) throw new Error("feed " + res.status);
     const data = await res.json();
     setStatus(exploreStatus, "");
     exploreResults.textContent = "";
-
     const norm = a => ({
+      src:"wp", srcName:"Wikipedia",
       title:(a.titles && a.titles.normalized) || (a.title||"").replace(/_/g," "),
       desc:a.description || (a.extract ? a.extract.slice(0,160) : ""),
       thumb:(a.thumbnail && a.thumbnail.source) || ""
     });
-
     if(data.tfa){
-      exploreResults.appendChild(el("div","section-label","Today's featured article"));
-      const holder = el("div"); exploreResults.appendChild(holder);
-      renderGrid(holder, [norm(data.tfa)].filter(p=>!isHidden(p.title)));
+      exploreResults.appendChild(el("div","section-label","Wikipedia — today's featured article"));
+      renderGrid(exploreResults, [norm(data.tfa)].filter(p=>!isHidden(p)));
     }
     const most = data.mostread && data.mostread.articles;
     if(most && most.length){
-      exploreResults.appendChild(el("div","section-label","Most read right now"));
-      const holder = el("div"); exploreResults.appendChild(holder);
-      renderGrid(holder, most.slice(0,12).map(norm).filter(p=>!isHidden(p.title)));
+      exploreResults.appendChild(el("div","section-label","Wikipedia — most read right now"));
+      renderGrid(exploreResults, most.slice(0,12).map(norm).filter(p=>!isHidden(p)));
     }
     if(!exploreResults.children.length) throw new Error("empty feed");
   }catch(e){
@@ -524,102 +727,99 @@ const recResults = document.getElementById("recResults");
 const recStatus  = document.getElementById("recStatus");
 
 async function buildRecommendations(){
-  const likes = Object.values(state.likes).sort((a,b)=>b.ts-a.ts);
+  const likes = Object.values(state.likes)
+    .filter(p=>srcById(p.src))
+    .sort((a,b)=>b.ts-a.ts);
   recResults.textContent = "";
   if(!likes.length){
     recStatus.textContent = "";
     const empty = el("div","empty");
-    empty.innerHTML = "<strong>No likes yet.</strong> Head to Explore, tap ♥ on a few pages that interest you, and this feed will fill with related articles.";
+    empty.innerHTML = "<strong>No likes yet.</strong> Head to Explore, tap ♥ on a few pages that interest you — from Wikipedia or any wiki you add — and this feed will fill with related pages.";
     recResults.appendChild(empty);
     return;
   }
-
   recStatus.textContent = "Finding pages related to your likes…";
   const seeds = likes.slice(0,8);
-  const scores = new Map();     // title -> score
-  const because = new Map();    // title -> seed title
+  const scores = new Map();   // key -> score
+  const because = new Map();  // key -> seed title
+  const pageStub = new Map(); // key -> {src,title}
 
   const settled = await Promise.allSettled(seeds.map(async seed => {
-    const data = await mw({
-      action:"query",
-      list:"search",
-      srsearch:'morelike:"' + seed.title.replace(/"/g,'') + '"',
-      srlimit:"12",
-      srnamespace:"0",
-      srprop:"",
-    });
-    const hits = (data.query && data.query.search) || [];
-    hits.forEach((h,i)=>{
-      const t = h.title;
-      if(isLiked(t) || isHidden(t)) return;
-      const s = (scores.get(t)||0) + (12-i);
-      scores.set(t, s);
-      if(!because.has(t)) because.set(t, seed.title);
+    const source = srcById(seed.src);
+    const titles = await relatedTitles(source, seed.title);
+    titles.forEach((t,i)=>{
+      const p = {src:source.id, title:t};
+      if(isLiked(p) || isHidden(p)) return;
+      const k = keyOf(p);
+      scores.set(k, (scores.get(k)||0) + Math.max(1, 12-i));
+      if(!because.has(k)) because.set(k, seed.title);
+      pageStub.set(k, p);
     });
   }));
 
-  const failed = settled.every(r => r.status === "rejected");
-  if(failed){
+  if(settled.every(r=>r.status==="rejected")){
     recStatus.textContent = "";
-    recResults.appendChild(el("div","empty","Couldn't reach Wikipedia to build recommendations — check your connection and refresh."));
+    recResults.appendChild(el("div","empty","Couldn't reach your wikis to build recommendations — check your connection and refresh."));
     return;
   }
-
-  const ranked = [...scores.entries()].sort((a,b)=>b[1]-a[1]).slice(0,24).map(e=>e[0]);
+  const ranked = [...scores.entries()].sort((a,b)=>b[1]-a[1]).slice(0,30).map(e=>pageStub.get(e[0]));
   if(!ranked.length){
     recStatus.textContent = "";
     recResults.appendChild(el("div","empty","Nothing new to suggest right now — like a few more pages and refresh."));
     return;
   }
 
-  // hydrate thumbnails + descriptions
-  let pages = ranked.map(t => ({ title:t, desc:"", thumb:"" }));
-  try{
-    const data = await mw({
-      action:"query",
-      titles:ranked.join("|"),
-      prop:"pageimages|description",
-      piprop:"thumbnail",
-      pithumbsize:"200",
-      redirects:"1",
-    });
-    const info = new Map(((data.query && data.query.pages) || []).map(p=>[p.title,p]));
-    pages = ranked.map(t=>{
-      const p = info.get(t) || {};
-      return { title:t, desc:p.description||"", thumb:(p.thumbnail && p.thumbnail.source)||"" };
-    });
-  }catch(e){ /* show without thumbnails */ }
+  // hydrate per source, keep global rank order
+  const bySrc = new Map();
+  ranked.forEach(p=>{
+    if(!bySrc.has(p.src)) bySrc.set(p.src, []);
+    bySrc.get(p.src).push(p.title);
+  });
+  const hydrated = new Map();
+  await Promise.allSettled([...bySrc.entries()].map(async ([sid,titles])=>{
+    const pages = await hydrate(srcById(sid), titles);
+    pages.forEach(p=>hydrated.set(keyOf(p), p));
+  }));
+  const pages = ranked.map(p=>hydrated.get(keyOf(p)) ||
+    Object.assign({srcName:(srcById(p.src)||{}).name||"", desc:"", thumb:""}, p));
 
-  recStatus.textContent = "Based on " + seeds.length + " of your " + likes.length + " liked page" + (likes.length===1?"":"s") + ".";
+  recStatus.textContent = "Based on " + seeds.length + " of your " + likes.length +
+    " liked page" + (likes.length===1?"":"s") + ".";
   renderGrid(recResults, pages, { becauseOf: because });
   recsStale = false;
 }
-
 document.getElementById("refreshRecs").addEventListener("click", buildRecommendations);
 
 /* ---------------- library tab ---------------- */
 const libraryContent = document.getElementById("libraryContent");
 function renderLibrary(){
+  if(document.getElementById("panel-library").hidden) return;
   libraryContent.textContent = "";
   const likes  = Object.values(state.likes).sort((a,b)=>b.ts-a.ts);
   const hidden = Object.values(state.hidden).sort((a,b)=>b.ts-a.ts);
 
   libraryContent.appendChild(el("div","section-label","Liked pages (" + likes.length + ")"));
-  if(likes.length){
-    const holder = el("div"); libraryContent.appendChild(holder);
-    renderGrid(holder, likes);
-  }else{
-    libraryContent.appendChild(el("div","empty","Pages you ♥ will be collected here."));
-  }
+  if(likes.length) renderGrid(libraryContent, likes);
+  else libraryContent.appendChild(el("div","empty","Pages you ♥ will be collected here."));
 
   libraryContent.appendChild(el("div","section-label","Hidden pages (" + hidden.length + ")"));
-  if(hidden.length){
-    const holder = el("div"); libraryContent.appendChild(holder);
-    renderGrid(holder, hidden);
-  }else{
-    const e = el("div","empty","Pages you mark “Not for me” are kept out of search results and recommendations. Un-hide them here any time.");
-    libraryContent.appendChild(e);
-  }
+  if(hidden.length) renderGrid(libraryContent, hidden);
+  else libraryContent.appendChild(el("div","empty","Pages you mark “Not for me” are kept out of search results and recommendations. Un-hide them here any time."));
+
+  libraryContent.appendChild(el("div","section-label","Your wikis (" + state.sources.length + ")"));
+  state.sources.forEach(s=>{
+    const row = el("div","src-row ui");
+    row.appendChild(el("span","name",s.name));
+    row.appendChild(el("span","host",s.host));
+    row.appendChild(el("span","spacer"));
+    if(!s.builtin){
+      const rm = el("button","btn small","Remove");
+      rm.type = "button";
+      rm.addEventListener("click", ()=>removeSource(s.id));
+      row.appendChild(rm);
+    }
+    libraryContent.appendChild(row);
+  });
 }
 
 /* ---------------- reader ---------------- */
@@ -627,58 +827,156 @@ const reader        = document.getElementById("reader");
 const readerBackdrop= document.getElementById("readerBackdrop");
 const readerBody    = document.getElementById("readerBody");
 const readerTitle   = document.getElementById("readerTitle");
+const readerSrcEl   = document.getElementById("readerSrc");
 const readerWiki    = document.getElementById("readerWikiLink");
 let readerPage = null;
 let lastFocus = null;
+let readerSeq = 0;
+
+const STRIP_SELECTORS = [
+  "script","style","link","meta",
+  "aside.portable-infobox",".infobox",".navbox","table.navbox",".navbox-inner",
+  ".mw-editsection",".mw-cite-backlink",".toc","#toc",".noprint",".printfooter",
+  ".mbox-small",".ambox",".hatnote",".shortdescription",".sistersitebox",
+  ".mw-references-wrap","ol.references",".reflist",".catlinks",".notice",".message-box"
+].join(",");
+
+function sanitizeArticle(html, source){
+  const box = document.createElement("div");
+  box.innerHTML = html;
+  box.querySelectorAll(STRIP_SELECTORS).forEach(n=>n.remove());
+  box.querySelectorAll("sup.reference").forEach(n=>n.remove());
+  // fix lazy-loaded images (Fandom)
+  box.querySelectorAll("img").forEach(img=>{
+    const ds = img.getAttribute("data-src");
+    const dss = img.getAttribute("data-srcset");
+    if(ds) img.src = ds;
+    if(dss) img.srcset = dss;
+    img.removeAttribute("loading");
+    if(img.src && img.src.startsWith("data:") && !ds) img.remove();
+  });
+  // wrap tables for horizontal scroll
+  box.querySelectorAll("table").forEach(t=>{
+    const w = document.createElement("div");
+    w.className = "tbl-wrap";
+    t.parentNode.insertBefore(w, t);
+    w.appendChild(t);
+  });
+  // rewrite links: internal -> in-app; everything else -> absolute, new tab
+  const base = new URL(source.article);
+  box.querySelectorAll("a").forEach(a=>{
+    const href = a.getAttribute("href") || "";
+    if(!href || href.startsWith("#")){ a.replaceWith(...a.childNodes); return; }
+    let abs;
+    try{ abs = new URL(href, base); }catch(e){ a.replaceWith(...a.childNodes); return; }
+    const path = abs.origin + abs.pathname;
+    if(abs.hostname === base.hostname && path.startsWith(source.article.replace(/\/$/,"") + "/")){
+      const t = decodeURIComponent(path.slice(source.article.length)).replace(/_/g," ");
+      if(t && !t.includes(":")){       // article namespace only
+        a.setAttribute("href","#");
+        a.dataset.rhTitle = t;
+        return;
+      }
+    }
+    a.setAttribute("href", abs.href);
+    a.setAttribute("target","_blank");
+    a.setAttribute("rel","noopener");
+  });
+  return box;
+}
 
 async function openReader(page){
+  const seq = ++readerSeq;
   readerPage = page;
   lastFocus = document.activeElement;
+  const source = srcById(page.src);
   readerTitle.textContent = page.title;
-  readerWiki.href = "https://en.wikipedia.org/wiki/" + encodeURIComponent(page.title.replace(/ /g,"_"));
+  readerSrcEl.textContent = source ? source.name : (page.srcName||"");
+  readerWiki.textContent = "Open on " + (source ? source.name : "the wiki");
+  readerWiki.href = source ? source.article + encodeURIComponent(page.title.replace(/ /g,"_")) : "#";
   readerBody.innerHTML = '<p class="status">Loading article…</p>';
   reader.hidden = false; readerBackdrop.hidden = false;
   document.body.style.overflow = "hidden";
   syncReaderButtons();
   document.getElementById("readerClose").focus();
+  if(!source){
+    readerBody.innerHTML = '<p class="status">This page\'s wiki was removed from your list — add it back to read here.</p>';
+    return;
+  }
   try{
-    const art = await fetchArticle(page.title);
-    readerPage = { title:art.title, desc:art.desc || page.desc || "", thumb:page.thumb || "" };
-    readerTitle.textContent = art.title;
+    let inner;
+    if(source.wp){
+      const data = await mw(source, {
+        action:"query", titles:page.title,
+        prop:"extracts|pageimages|description", piprop:"original", redirects:"1",
+      });
+      if(seq !== readerSeq) return;
+      const p = data.query && data.query.pages && data.query.pages[0];
+      if(!p || p.missing) throw new Error("Page not found");
+      readerPage = {src:page.src, srcName:source.name, title:p.title, desc:p.description||page.desc||"", thumb:page.thumb||""};
+      readerTitle.textContent = p.title;
+      inner = el("div","article");
+      if(p.original && p.original.source){
+        const img = el("img","lead-img"); img.src = p.original.source; img.alt = p.title;
+        inner.appendChild(img);
+      }
+      if(p.description){
+        const d = el("p",null,p.description);
+        d.style.cssText = "font-style:italic;color:var(--ink-soft);margin-top:10px";
+        inner.appendChild(d);
+      }
+      const bodyHtml = el("div");
+      bodyHtml.innerHTML = p.extract || "<p>No preview available for this page.</p>";
+      inner.appendChild(bodyHtml);
+    }else{
+      const [parsed, imgData] = await Promise.all([
+        mw(source, {action:"parse", page:page.title, prop:"text", redirects:"1",
+                    disableeditsection:"1", disablelimitreport:"1"}),
+        mw(source, {action:"query", titles:page.title, prop:"pageimages",
+                    piprop:"original", redirects:"1"}).catch(()=>null),
+      ]);
+      if(seq !== readerSeq) return;
+      if(!parsed.parse || !parsed.parse.text) throw new Error("Page not found");
+      readerPage = {src:page.src, srcName:source.name, title:parsed.parse.title || page.title,
+                    desc:page.desc||"", thumb:page.thumb||""};
+      readerTitle.textContent = readerPage.title;
+      inner = el("div","article");
+      const lead = imgData && imgData.query && imgData.query.pages && imgData.query.pages[0];
+      if(lead && lead.original && lead.original.source){
+        const img = el("img","lead-img"); img.src = lead.original.source; img.alt = readerPage.title;
+        inner.appendChild(img);
+      }
+      inner.appendChild(sanitizeArticle(parsed.parse.text, source));
+    }
     readerBody.textContent = "";
-    const inner = el("div","article");
-    if(art.image){
-      const img = el("img","lead-img");
-      img.src = art.image; img.alt = art.title;
-      inner.appendChild(img);
-    }
-    if(art.desc){
-      const d = el("p",null,art.desc);
-      d.style.cssText = "font-style:italic;color:var(--ink-soft);margin-top:10px";
-      inner.appendChild(d);
-    }
-    const bodyHtml = el("div");
-    bodyHtml.innerHTML = art.html;
-    inner.appendChild(bodyHtml);
     readerBody.appendChild(inner);
+    readerBody.scrollTop = 0;
     syncReaderButtons();
   }catch(e){
-    readerBody.innerHTML = '<p class="status">Couldn\'t load this article. You can still open it on Wikipedia below.</p>';
+    if(seq !== readerSeq) return;
+    readerBody.innerHTML = '<p class="status">Couldn\'t load this article. You can still open the original below.</p>';
   }
 }
+readerBody.addEventListener("click", e=>{
+  const a = e.target.closest && e.target.closest("a[data-rh-title]");
+  if(a && readerPage){
+    e.preventDefault();
+    openReader({src:readerPage.src, srcName:readerPage.srcName, title:a.dataset.rhTitle, desc:"", thumb:""});
+  }
+});
 function closeReader(){
   reader.hidden = true; readerBackdrop.hidden = true;
   document.body.style.overflow = "";
-  readerPage = null;
+  readerPage = null; readerSeq++;
   if(lastFocus && lastFocus.focus) lastFocus.focus();
 }
 function syncReaderButtons(){
   if(!readerPage) return;
   const likeBtn = document.getElementById("readerLike");
   const hideBtn = document.getElementById("readerHide");
-  likeBtn.classList.toggle("liked", isLiked(readerPage.title));
-  likeBtn.querySelector("span:last-child").textContent = isLiked(readerPage.title) ? "Liked" : "Like";
-  hideBtn.querySelector("span:last-child").textContent = isHidden(readerPage.title) ? "Hidden" : "Not for me";
+  likeBtn.classList.toggle("liked", isLiked(readerPage));
+  likeBtn.querySelector("span:last-child").textContent = isLiked(readerPage) ? "Liked" : "Like";
+  hideBtn.querySelector("span:last-child").textContent = isHidden(readerPage) ? "Hidden" : "Not for me";
 }
 document.getElementById("readerClose").addEventListener("click", closeReader);
 readerBackdrop.addEventListener("click", closeReader);
@@ -709,10 +1007,11 @@ const chipBox = document.getElementById("starterChips");
 STARTERS.forEach(s=>{
   const c = el("button","chip",s);
   c.type = "button";
-  c.addEventListener("click", ()=>runSearch(s));
+  c.addEventListener("click", ()=>{ sourceFilter = "all"; renderSourceChips(); runSearch(s); });
   chipBox.appendChild(c);
 });
 
+renderSourceChips();
 updateCounts();
 loadFrontPage();
 </script>
